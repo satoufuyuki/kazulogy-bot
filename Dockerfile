@@ -3,9 +3,11 @@ FROM golang:1.22-alpine AS build-stage
 WORKDIR /tmp/build
 
 COPY . .
+# Install dependencies
+RUN apk add --no-cache build-base
 
 # Build the project
-RUN go build .
+RUN CGO_ENABLED=1 go build .
 
 FROM alpine:3
 
