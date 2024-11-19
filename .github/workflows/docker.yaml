@@ -1,0 +1,21 @@
+name: Build & Push to container registry
+
+on:
+  release:
+    types: [created]
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "Dockerfile"
+
+jobs:
+  docker:
+    permissions:
+      packages: write
+      contents: read
+    uses: ict-neskar/workflows/.github/workflows/build-docker.yaml@main
+    secrets: inherit
