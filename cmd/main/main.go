@@ -20,7 +20,7 @@ func Providers() fx.Option {
 			// Commands
 			fx.Annotate(utility.NewStealCommand, fx.ResultTags(`group:"commands"`)),
 			fx.Annotate(utility.NewPingCommand, fx.ResultTags(`group:"commands"`)),
-			fx.Annotate(commands.CommandHandler, fx.ParamTags("", `group:"commands"`)),
+			fx.Annotate(commands.CommandHandler, fx.ParamTags("", "", `group:"commands"`)),
 		),
 	)
 }

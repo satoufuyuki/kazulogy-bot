@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/satoufuyuki/kazulogy-bot/internal/client"
+	"github.com/satoufuyuki/kazulogy-bot/pkg/framework/config"
 	"github.com/satoufuyuki/kazulogy-bot/pkg/framework/utilities"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/proto/waE2E"
@@ -54,18 +55,17 @@ func execCommand(client *client.Client, command Command, ev *events.Message, arg
 	}()
 }
 
-func CommandHandler(client *client.Client, commands ...Command) whatsmeow.EventHandler {
-	prefix := "/"
+func CommandHandler(client *client.Client, config config.Config, commands ...Command) whatsmeow.EventHandler {
 	return func(evt interface{}) {
 		switch v := evt.(type) {
 		case *events.Message:
 			content := utilities.FindMessageContentFromMessage(v.Message)
 
-			if len(content) == 0 || !strings.HasPrefix(content, prefix) {
+			if len(content) == 0 || !strings.HasPrefix(content, config.BotPrefix) {
 				return
 			}
 
-			arguments := strings.Split(content[len(prefix):], " ")
+			arguments := strings.Split(content[len(config.BotPrefix):], " ")
 			commandName := arguments[0]
 			for _, command := range commands {
 				if command.Meta().Name == commandName {
